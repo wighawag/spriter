@@ -1,0 +1,22 @@
+-js bin/test.js
+-cp Sources
+-cp Tests/src
+-cp Tests/libs/utest/src
+-main TestAll
+-D haxeJSON
+
+-cmd node bin/test.js
+
+--next
+
+-cpp bin/cpp
+-cp Sources
+-cp Tests/src
+-cp Tests/libs/utest/src
+-main TestAll
+-D haxeJSON
+-D HXCPP_STACK_TRACE
+-D HXCPP_TELEMETRY
+-D HXCPP_STACK_LINE
+
+-cmd bin\cpp\TestAll || bin/cpp/TestAll

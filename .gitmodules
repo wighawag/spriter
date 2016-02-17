@@ -1,0 +1,3 @@
+[submodule "Tests/libs/utest"]
+	path = Tests/libs/utest
+	url = https://github.com/fponticelli/utest
