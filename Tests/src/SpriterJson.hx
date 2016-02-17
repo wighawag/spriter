@@ -97,7 +97,7 @@ class SpriterJson{
 				id : sounds.id(current),
 				folderId : sounds.folderId(current),
 				fileId : sounds.fileId(current),
-				trigger : sounds.trigger(current),
+				trigger : true,
 				panning : sounds.panning(current),
 				volume : sounds.volume(current)
 			});

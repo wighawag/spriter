@@ -25,7 +25,7 @@ class EntityInstance{
 	
 	public var animationFinished :  String -> Void; //TODO? Array
 	public var eventTriggered :  String -> Void;//TODO? Array
-	public var soundTriggered :  String -> Bool -> Float -> Float -> Void; //TODO Array
+	public var soundTriggered :  String -> Float -> Float -> Void; //TODO Array
 	public var speed : Float;
 	
 	public var currentAnimationName(default,null) : String;
@@ -195,7 +195,7 @@ class EntityInstance{
 			while (current < sounds.top)
 			{
 				var fileName = entity.spriter.folders[sounds.folderId(current)].files[sounds.fileId(current)].name;
-				soundTriggered(fileName, sounds.trigger(current), sounds.panning(current), sounds.volume(current));
+				soundTriggered(fileName, sounds.panning(current), sounds.volume(current));
 				current+=sounds.structSize;
 			}
 		}
@@ -919,7 +919,7 @@ class EntityInstance{
 			{
 				var key = soundLine.keys[j];
 				var sound = key.object;
-				if (sound.trigger && isTriggered(key, targetTime, previousTime, animation.length)) sounds.write(sound.id, sound.folderId, sound.fileId, sound.trigger, sound.panning, sound.volume);
+				if (sound.trigger && isTriggered(key, targetTime, previousTime, animation.length)) sounds.write(sound.id, sound.folderId, sound.fileId, sound.panning, sound.volume);
 			}
 		}
 	}

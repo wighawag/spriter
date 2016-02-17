@@ -662,21 +662,17 @@ abstract SoundData(Array<Float>){
 	inline public function fileId(current : Int) : Int{
 		return untyped this[current+2];
 	}
-	inline public function trigger(current : Int) : Bool{
-		return this[current+3] == 1;
-	}
 	inline public function panning(current : Int) : Float{
-		return this[current+4];
+		return this[current+3];
 	}
 	inline public function volume(current : Int) : Float{
-		return this[current+5];
+		return this[current+4];
 	}
 		
 	inline public function write(
 		id : Int,
 		folderId : Int,
 		fileId : Int,
-		trigger : Bool,
 		panning : Float,
 		volume : Float
 	) : Void{
@@ -684,9 +680,8 @@ abstract SoundData(Array<Float>){
 		this[current] = id;
 		this[current+1] = folderId;
 		this[current+2] = fileId;
-		this[current+3] = trigger ? 1 : 0;
-		this[current+4] = panning;
-		this[current+5] = volume;
+		this[current+3] = panning;
+		this[current+4] = volume;
 		this[0] = current + structSize;
 	}
 	
@@ -699,7 +694,7 @@ abstract SoundData(Array<Float>){
 	}
 	
 	inline public function get_structSize() : Int{
-		return 6;
+		return 5;
 	}
 	
 	inline public function clear(){
