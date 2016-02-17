@@ -1,0 +1,13 @@
+{
+	"name":"spriter",
+	"license":"MIT",
+	"tags":["spriter","animation"],
+	"description":"a runtime for spriter",
+	"contributors":["wighawag"],
+	"releasenote":"first version",
+	"version":"0.1.0",
+	"url":"https://github.com/wighawag/spriter",
+	"classPath":"Sources",
+	"dependencies":{
+	}
+}
