@@ -1,15 +1,15 @@
 import haxe.macro.Expr;
 
 class Telemetry{
-	macro public static function gatherTelemetryData(expr : Expr) : Expr{
+	macro public static function gatherTelemetryDataFor(expr : Expr) : Expr{
 		var newExpr = macro {
-		var _telemetryData : Telemetry.TelemetryData = new Telemetry.TelemetryData();
-		_telemetryData.begin();
+		var _telemetryData : Telemetry.TelemetryData = @:privateAccess new Telemetry.TelemetryData();
+		@:privateAccess _telemetryData.begin();
 	};
 
 	newExpr = append(newExpr,expr);
 	newExpr = append(newExpr,macro {
-		_telemetryData.end();
+		@:privateAccess _telemetryData.end();
 		_telemetryData;
 	});
 	
@@ -37,10 +37,10 @@ class TelemetryData{
 	public var numReallocations(default,null) : Int = -1;
 	public var numDeallocations(default,null) : Int = -1;
 	var threadNum : Int = -1;
-	public function new(){
+	private function new(){
 	}
 	
-	public function begin(){
+	private function begin(){
 		threadNum = untyped  __global__.__hxcpp_hxt_start_telemetry(true, true);
 		untyped  __global__.__hxcpp_hxt_ignore_allocs(1);
 		cpp.vm.Gc.run(true);
@@ -48,7 +48,7 @@ class TelemetryData{
 	}
 	
 	
-	public function end(){
+	private function end(){
 		cpp.vm.Gc.run(true);
 		untyped  __global__.__hxcpp_hxt_ignore_allocs(1);
 		untyped  __global__.__hxcpp_hxt_stash_telemetry();

@@ -83,24 +83,34 @@ class TestAll{
 	
 	#if HXCPP_TELEMETRY
 	
-	public function testAllocation(){
+	public function testEntityStepDoNotGenerateAllocationsWithComplexPlayer(){
 			
 		var entity = SpriterTest.createEntity("Tests/assets/player_006.scml", "Player");
 		
-		var telemetryData = Telemetry.gatherTelemetryData({
-		entity.step(2.216);
+		var telemetryData = Telemetry.gatherTelemetryDataFor({
+			entity.step(2.216);
 		});
 		
 		Assert.equals(0, telemetryData.numAllocations);
+		Assert.equals(0, telemetryData.numReallocations);
+		Assert.equals(0, telemetryData.numDeallocations);
 	}
 	
 	
-	public function testAllocation3(){
-		var telemetryData = Telemetry.gatherTelemetryData({
-		var array  = new Array();
+	public function testEntityStepDoNotGenerateAllocationsWithTransitionOnSimplePlayer(){
+		var entity = SpriterTest.createEntity("Tests/assets/player.scml", "Player");
+		entity.play("walk");
+		entity.step(0.33);
+		entity.transition("crouch_down", 1);
+		
+		
+		var telemetryData = Telemetry.gatherTelemetryDataFor({
+			entity.step(0.33);
 		});
 		
-		Assert.equals(1, telemetryData.numAllocations);
+		Assert.equals(0, telemetryData.numAllocations);
+		Assert.equals(0, telemetryData.numReallocations);
+		Assert.equals(0, telemetryData.numDeallocations);
 	}
 	
 	#end
