@@ -87,13 +87,13 @@ class TestAll{
 			
 		var entity = SpriterTest.createEntity("Tests/assets/player_006.scml", "Player");
 		
-		var telemetryData = Telemetry.gatherTelemetryDataFor({
+		var gcUsage = Gc.gatherGcUsageFor({
 			entity.step(2.216);
 		});
 		
-		Assert.equals(0, telemetryData.numAllocations);
-		Assert.equals(0, telemetryData.numReallocations);
-		Assert.equals(0, telemetryData.numDeallocations);
+		Assert.equals(0, gcUsage.numAllocations);
+		Assert.equals(0, gcUsage.numReallocations);
+		Assert.equals(0, gcUsage.numDeallocations);
 	}
 	
 	
@@ -104,13 +104,13 @@ class TestAll{
 		entity.transition("crouch_down", 1);
 		
 		
-		var telemetryData = Telemetry.gatherTelemetryDataFor({
+		var gcUsage = Gc.gatherGcUsageFor({
 			entity.step(0.33);
 		});
 		
-		Assert.equals(0, telemetryData.numAllocations);
-		Assert.equals(0, telemetryData.numReallocations);
-		Assert.equals(0, telemetryData.numDeallocations);
+		Assert.equals(0, gcUsage.numAllocations);
+		Assert.equals(0, gcUsage.numReallocations);
+		Assert.equals(0, gcUsage.numDeallocations);
 	}
 	
 	#end
