@@ -2,10 +2,10 @@
 	"name":"spriter",
 	"license":"MIT",
 	"tags":["spriter","animation"],
-	"description":"a runtime for spriter",
+	"description":"a runtime for spriter with zero allocation while animating",
 	"contributors":["wighawag"],
-	"releasenote":"first version",
-	"version":"0.1.0",
+	"releasenote":"various tweak + cleaner allocation test",
+	"version":"0.1.1",
 	"url":"https://github.com/wighawag/spriter",
 	"classPath":"Sources",
 	"dependencies":{
