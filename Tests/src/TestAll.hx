@@ -10,6 +10,10 @@ import haxe.Json;
 
 using Lambda;
 
+#if cpp
+import telemetry.TelemetryData;
+#end
+
 class TestAll{
 	
 	
@@ -86,62 +90,33 @@ class TestAll{
 			
 		var entity = SpriterTest.createEntity("Tests/assets/player_006.scml", "Player");
 		
-		cpp.vm.Gc.run(true); //not necessary
-		
-		
-		var threadNum = untyped  __global__.__hxcpp_hxt_start_telemetry(true, true);
-		
-		//var array  = new Array();
+		var telemetryData = new TelemetryData();
+		telemetryData.begin();
 		entity.step(2.216);
+		telemetryData.end();
 		
-		cpp.vm.Gc.run(true);
-		
-		untyped __global__.__hxcpp_hxt_ignore_allocs(1);
-		
-		//advance frame : 
-		//untyped __global__.__hxcpp_hxt_ignore_allocs(1);
-		untyped __global__.__hxcpp_hxt_stash_telemetry();
-		// var gctotal:Int = Std.int((untyped __global__.__hxcpp_gc_reserved_bytes())/1024);
-		// var gcused:Int = Std.int((untyped __global__.__hxcpp_gc_used_bytes())/1024);
-		// //untyped __global__.__hxcpp_hxt_ignore_allocs(-1);
-		// trace(gctotal, gcused);
-		
-		var numAllocations = getNumAllocations(threadNum);
-		
-		Assert.equals(0, numAllocations);
-	}
-	#end
-	
-	#if HXCPP_TELEMETRY
-	
-	@:functionCode('
-		TelemetryFrame* frame = __hxcpp_hxt_dump_telemetry(thread_num);
-		if (frame->allocation_data!=0){
-			int size = frame->allocation_data->size();
-			int i = 0;
-			int count = 0;
-			int reallocCount = 0;
-			int deallocCount = 0;
-			while (i<size) {
-				if (frame->allocation_data->at(i)==0) { // allocation
-					i+=5;
-					count++;
-				}
-				else if (frame->allocation_data->at(i)==1) { i+=2; deallocCount ++; } // deallocation
-				else if (frame->allocation_data->at(i)==2) { i+=4; reallocCount ++; } // reallocation
-			}
-			printf("realloc :  %d\\ndealloc : %d",reallocCount, deallocCount);
-			return count;
-		}
-		return -1;
-	')
-	public static function getNumAllocations(thread_num : Int) : Int{
-		return 10;
+		Assert.equals(0, telemetryData.numAllocations);
 	}
 	
+	public function testAllocation2(){
+		var telemetryData = new TelemetryData();
+		telemetryData.begin();
+		var array  = new Array();
+		telemetryData.end();
+		
+		Assert.equals(1, telemetryData.numAllocations);
+	}
 	
+	public function testAllocation3(){
+		var telemetryData = telemetry.GCAssert.gatherTelemetryData({
+		var array  = new Array();
+		});
+		
+		Assert.equals(1, telemetryData.numAllocations);
+	}
 	
 	#end
+	
 	
 	@:access(spriter)
 	private function assertThatEntityMatch(entity : EntityInstance, content : String){
