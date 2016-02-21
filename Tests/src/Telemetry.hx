@@ -3,7 +3,7 @@ import haxe.macro.Expr;
 class Telemetry{
 	macro public static function gatherTelemetryData(expr : Expr) : Expr{
 		var newExpr = macro {
-		var _telemetryData : telemetry.TelemetryData = new telemetry.TelemetryData();
+		var _telemetryData : Telemetry.TelemetryData = new Telemetry.TelemetryData();
 		_telemetryData.begin();
 	};
 
