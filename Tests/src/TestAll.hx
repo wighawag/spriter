@@ -10,9 +10,6 @@ import haxe.Json;
 
 using Lambda;
 
-#if cpp
-import telemetry.TelemetryData;
-#end
 
 class TestAll{
 	
@@ -90,25 +87,16 @@ class TestAll{
 			
 		var entity = SpriterTest.createEntity("Tests/assets/player_006.scml", "Player");
 		
-		var telemetryData = new TelemetryData();
-		telemetryData.begin();
+		var telemetryData = Telemetry.gatherTelemetryData({
 		entity.step(2.216);
-		telemetryData.end();
+		});
 		
 		Assert.equals(0, telemetryData.numAllocations);
 	}
 	
-	public function testAllocation2(){
-		var telemetryData = new TelemetryData();
-		telemetryData.begin();
-		var array  = new Array();
-		telemetryData.end();
-		
-		Assert.equals(1, telemetryData.numAllocations);
-	}
 	
 	public function testAllocation3(){
-		var telemetryData = telemetry.GCAssert.gatherTelemetryData({
+		var telemetryData = Telemetry.gatherTelemetryData({
 		var array  = new Array();
 		});
 		
