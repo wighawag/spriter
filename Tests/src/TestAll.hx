@@ -87,7 +87,7 @@ class TestAll{
 			
 		var entity = SpriterTest.createEntity("Tests/assets/player_006.scml", "Player");
 		
-		var gcUsage = Gc.gatherGcUsageFor({
+		var gcUsage = GcUsage.gatherFrom({
 			entity.step(2.216);
 		});
 		
@@ -104,7 +104,7 @@ class TestAll{
 		entity.transition("crouch_down", 1);
 		
 		
-		var gcUsage = Gc.gatherGcUsageFor({
+		var gcUsage = GcUsage.gatherFrom({
 			entity.step(0.33);
 		});
 		

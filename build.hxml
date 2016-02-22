@@ -2,7 +2,7 @@
 -cp Sources
 -cp Tests/src
 -cp Tests/libs/utest/src
--cp Tests/libs/gc/Sources
+-cp Tests/libs/gcusage/Sources
 -main TestAll
 -D haxeJSON
 
@@ -14,7 +14,7 @@
 -cp Sources
 -cp Tests/src
 -cp Tests/libs/utest/src
--cp Tests/libs/gc/Sources
+-cp Tests/libs/gcusage/Sources
 -main TestAll
 -D haxeJSON
 -D HXCPP_STACK_TRACE

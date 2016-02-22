@@ -1,6 +1,6 @@
 [submodule "Tests/libs/utest"]
 	path = Tests/libs/utest
 	url = https://github.com/fponticelli/utest
-[submodule "Tests/libs/gc"]
-	path = Tests/libs/gc
-	url = https://github.com/wighawag/gc
+[submodule "Tests/libs/gcusage"]
+	path = Tests/libs/gcusage
+	url = https://github.com/wighawag/gcusage
