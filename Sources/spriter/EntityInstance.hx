@@ -218,6 +218,7 @@ class EntityInstance{
 
 		_currentAnimation = animation;
 		currentAnimationName = animation.name;
+		currentAnimationTime = 0;
 
 		nextAnimation = null;
 		currentAnimationLength = _currentAnimation.length;
