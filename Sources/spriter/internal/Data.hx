@@ -67,6 +67,7 @@ class File extends Element{
 class Entity extends Element{
 	private var spriter : Spriter;
 	private var objectInfos : Array<ObjectInfo>; //<obj_info>
+	public var objectInfosMap : Map<String,ObjectInfo>;
 	private var characterMaps : Array<CharacterMap>;//<character_map>
 	private var animations : Array<Animation>;//<animation> //should be a map ?
 	private var variables : Array<VariableDef>;//<var_defs><i/><i/></var_defs>
@@ -81,10 +82,14 @@ class Entity extends Element{
 		Element.fromXml(entity,xml);
 		entity.spriter = spriter;
 		
+		entity.objectInfosMap = new Map();
 		entity.objectInfos = new Array();
 		for (xml in xml.elementsNamed("obj_info")){
 			var objectInfo = ObjectInfo.fromXml(xml);
 			entity.objectInfos.push(objectInfo);
+			if(objectInfo.name != null && objectInfo.name != ""){
+				entity.objectInfosMap[objectInfo.name] = objectInfo;
+			}
 		}
 		
 		entity.characterMaps = new Array();
@@ -151,8 +156,8 @@ class ObjectInfo extends Element{
 		
 		objectInfo.pivotX = xml.getFloat("pivot_x", 0);
 		objectInfo.pivotY = xml.getFloat("pivot_y", 0);
-		objectInfo.width = xml.getFloat("width", 0);
-		objectInfo.height = xml.getFloat("height", 0);
+		objectInfo.width = xml.getFloat("w", 0);
+		objectInfo.height = xml.getFloat("h", 0);
 		
 		objectInfo.variables = new Array();
 		for (xml in xml.elementsNamed("var_defs")){

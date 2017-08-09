@@ -12,7 +12,7 @@ class EntityInstance{
 	public var boxes : ObjectData;
 	public var points : ObjectData;
 	public var pointNames : PushMapInt;
-	//TODO private var boxNames : PushMap<Int>;
+	public var boxNames : PushMapInt;
 	public var boxObjectIds : IntPushMapInt;
 	
 	public var events : PushArrayString;
@@ -135,6 +135,7 @@ class EntityInstance{
 		
 		
 		pointNames = new PushMapInt();
+		boxNames = new PushMapInt();
 		boxObjectIds = new IntPushMapInt();
 		tmpData = new ObjectData(2);
 		boneData = new BoneData(entity.maxNumBones);
@@ -302,6 +303,7 @@ class EntityInstance{
 				case ABox: 
 					objectData = boxes;
 					boxObjectIds.push(timeline.objectId, objectData.top);
+					boxNames.push(timeline.name, objectData.top);
 				case AnEntity:
 				default://dealt elsewhere
 			}
@@ -390,6 +392,7 @@ class EntityInstance{
 				case ABox: 
 					objectData = boxes;
 					boxObjectIds.push(timeline.objectId, objectData.top);
+					boxNames.push(timeline.name, objectData.top);
 				case AnEntity:
 				default://dealt elsewhere
 			}
