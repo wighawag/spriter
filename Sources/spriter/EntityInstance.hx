@@ -8,6 +8,11 @@ import spriter.internal.MathHelper;
 
 @:access(spriter)
 class EntityInstance{
+
+	public var addScaleX : Map<String,Float> = new Map(); //TODO check/optimize allocation
+	public var addScaleY : Map<String,Float> = new Map(); //TODO check/optimize allocation
+	public var addAngle : Map<String,Float> = new Map(); //TODO check/optimize allocation
+
 	public var sprites : ObjectData;
 	public var boxes : ObjectData;
 	public var points : ObjectData;
@@ -309,9 +314,11 @@ class EntityInstance{
 			}
 			tmpData.clear();
 			getObjectInfo(tmpData,objectRefFirst, first, adjustedTimeFirst);
+			addModifications(tmpData,timeline.name);
 			
 			var objectRefSecond = secondKeyA.objectRefs[i];
 			getObjectInfo(tmpData,objectRefSecond, second, adjustedTimeSecond);
+			addModifications(tmpData,currentAnim.timelines[objectRefSecond.timelineId].name);
 			
 			var firstIndex = tmpData.start;
 			var secondIndex = firstIndex + tmpData.structSize;
@@ -398,6 +405,7 @@ class EntityInstance{
 			}
 
 			getObjectInfo(objectData, objectRef, animation, adjustedTime);
+			addModifications(objectData,timeline.name);
 
 			if (hasBoneInfos && objectRef.parentId >= 0) {
 				applyObjectParentTransformFromBoneData(objectData, boneData, objectData.top-objectData.structSize, start + objectRef.parentId * boneData.structSize);
@@ -422,6 +430,19 @@ class EntityInstance{
 	
 		}
 
+	}
+
+	function addModifications(objectData : ObjectData, name : String){
+		var previousTop = objectData.top-objectData.structSize;
+		if(addScaleX.exists(name)){
+			objectData.setScaleX(previousTop,objectData.scaleX(previousTop) * addScaleX[name]);
+		}
+		if(addScaleY.exists(name)){
+			objectData.setScaleY(previousTop,objectData.scaleY(previousTop) * addScaleY[name]);
+		}
+		if(addAngle.exists(name)){
+			objectData.setAngle(previousTop,objectData.angle(previousTop) + addAngle[name]);
+		}
 	}
 	
 	private static function adjustTime(keyA : Key, keyB : Key, animationLength : Float, targetTime : Float) : Float
@@ -505,7 +526,8 @@ class EntityInstance{
 
 	private static function getObjectInfo(objectData : ObjectData, ref : BoneRef, animation : Animation, targetTime : Float) : Void
 	{
-		var keys : Array<TimelineKey> = animation.timelines[ref.timelineId].keys;
+		var timeline = animation.timelines[ref.timelineId];
+		var keys : Array<TimelineKey> = timeline.keys;
 		var keyA : TimelineKey = keys[ref.keyId];
 		var keyB : TimelineKey = getNextXLineKey(keys, keyA, animation.looping);
 
