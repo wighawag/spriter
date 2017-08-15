@@ -9,9 +9,36 @@ import spriter.internal.MathHelper;
 @:access(spriter)
 class EntityInstance{
 
-	public var addScaleX : Map<String,Float> = new Map(); //TODO check/optimize allocation
-	public var addScaleY : Map<String,Float> = new Map(); //TODO check/optimize allocation
-	public var addAngle : Map<String,Float> = new Map(); //TODO check/optimize allocation
+	var extraScaleX : Map<String,Float> = new Map(); //TODO check/optimize allocation
+	var extraScaleY : Map<String,Float> = new Map(); //TODO check/optimize allocation
+	var extraAngle : Map<String,Float> = new Map(); //TODO check/optimize allocation
+
+	public function setExtraScaleX(name : String, value : Float){
+		extraScaleX[name]=value;
+		frozen = false;
+	}
+	public function removeExtraScaleX(name : String){
+		extraScaleX.remove(name);
+		frozen = false;
+	}
+
+	public function setExtraScaleY(name : String, value : Float){
+		extraScaleY[name]=value;
+		frozen = false;
+	}
+	public function removeExtraScaleY(name : String){
+		extraScaleY.remove(name);
+		frozen = false;
+	}
+
+	public function setExtraAngle(name : String, value : Float){
+		extraAngle[name]=value;
+		frozen = false;
+	}
+	public function removeExtraAngle(name : String){
+		extraAngle.remove(name);
+		frozen = false;
+	}
 
 	public var sprites : ObjectData;
 	public var boxes : ObjectData;
@@ -120,6 +147,8 @@ class EntityInstance{
 	private var transitionTime : Float;
 	private var factor : Float;
 
+	var frozen : Bool = false;
+
 
 	private function new(entity : Entity, metadataEnabled : Bool){
 		this.metadataEnabled = metadataEnabled;
@@ -178,7 +207,11 @@ class EntityInstance{
 	}
 	
 	private function animate(elapsed : Float){
-		
+
+		if(nextAnimation == null && frozen){
+			return;
+		}
+
 		clearData();
 		if(nextAnimation == null){
 			updateFrameData(_currentAnimation, currentAnimationTime, -1);	 
@@ -228,7 +261,10 @@ class EntityInstance{
 
 		nextAnimation = null;
 		currentAnimationLength = _currentAnimation.length;
+		frozen = false;
 		step(0);
+
+		frozen = _currentAnimation.mainlineKeys.length == 1 && _currentAnimation.mainlineKeys[0].time == 0; //TODO onvestigate frozen on time  != 0
 	}
 	
 	
@@ -435,14 +471,14 @@ class EntityInstance{
 
 	function addModifications(objectData : ObjectData, name : String){
 		var previousTop = objectData.top-objectData.structSize;
-		if(addScaleX.exists(name)){
-			objectData.setScaleX(previousTop,objectData.scaleX(previousTop) * addScaleX[name]);
+		if(extraScaleX.exists(name)){
+			objectData.setScaleX(previousTop,objectData.scaleX(previousTop) * extraScaleX[name]);
 		}
-		if(addScaleY.exists(name)){
-			objectData.setScaleY(previousTop,objectData.scaleY(previousTop) * addScaleY[name]);
+		if(extraScaleY.exists(name)){
+			objectData.setScaleY(previousTop,objectData.scaleY(previousTop) * extraScaleY[name]);
 		}
-		if(addAngle.exists(name)){
-			objectData.setAngle(previousTop,objectData.angle(previousTop) + addAngle[name]);
+		if(extraAngle.exists(name)){
+			objectData.setAngle(previousTop,objectData.angle(previousTop) + extraAngle[name]);
 		}
 	}
 	
