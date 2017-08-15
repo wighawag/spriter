@@ -228,6 +228,7 @@ class EntityInstance{
 
 		nextAnimation = null;
 		currentAnimationLength = _currentAnimation.length;
+		step(0);
 	}
 	
 	
