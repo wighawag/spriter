@@ -240,7 +240,7 @@ class MainlineKey extends Key{
 		
 		mainlineKey.boneRefs = new Array();
 		for (xml in xml.elementsNamed("bone_ref")){ 
-			var boneRef = new BoneRef();
+			@:privateAccess var boneRef = new BoneRef();
 			mainlineKey.boneRefs.push(BoneRef.fromXml(boneRef, xml));			
 		}
 		
@@ -595,7 +595,7 @@ class EventLine extends Element{
 		
 		eventLine.keys = new Array();
 		for(xml in xml.elementsNamed("key")){
-			var key = new Key();
+			@:privateAccess var key = new Key();
 			eventLine.keys.push(Key.fromXml(key,xml));
 		}
 		
